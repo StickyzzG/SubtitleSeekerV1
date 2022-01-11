@@ -18,6 +18,10 @@ Running this script is simple. Just execute `subtitlefinder.py <your_file_path>`
 
 ## How it works
 
-This script uses the [OS HASH algorithm](http://trac.opensubtitles.org/projects/opensubtitles/wiki/HashSourceCodes) to generate a hash for your video file. If it doesn't find any matching subtitles, it uses the full text search provided by the opensubtitles API. 
+This script uses the [OS HASH algorithm](http://trac.opensubtitles.org/projects/opensubtitles/wiki/HashSourceCodes) to generate a hash for your video file. If it doesn't find any matching subtitles, it uses the full text search provided by the opensubtitles API. (This is include, for best pratices, but atm all subs come from a full text search)
 
 In the case a full text search is necessary, we rank the subtitles using three properties (in this order of priority): SubRating, SubDownloadCount and UserRank.
+
+## HASH algorithm
+
+This is included, for best pratices, but atm all subs come from a full text search

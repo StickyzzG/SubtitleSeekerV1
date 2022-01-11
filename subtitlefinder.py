@@ -65,7 +65,6 @@ def extract_file(saved_file, movie_file_name):
             shutil.copyfileobj(f_in, f_out)
 
 def start_prog():
-    #print("the selected letter is:", selectedletter)
     your_path = 'D://testmap//'
     files = os.listdir(your_path)
     for file in files:
@@ -101,13 +100,6 @@ def gui():
         if (dot == "ALL"):
             dot = ""
         return dot
-            
-    def letter_selected(event):
-
-        showinfo(
-            title='Result',
-            message=f'You selected {letter.get()}!'
-        )
     
     def check_all_par():
         
@@ -125,9 +117,6 @@ def gui():
         selbox = int(cbint.get())
         sellet = checkdot(sellet)
         
-        #print("the selected letter is ", sellet)
-        #print("the selected box is ",  selbox)
-        #print("the selected kind is ",  selkind)
         start_prog()
         
         
@@ -139,10 +128,7 @@ def gui():
     alphabet_string = string.ascii_uppercase
     abclist = list(alphabet_string)
     abclist.insert(0, "ALL")
-    cbint = IntVar()
-       
-    #for i in abclist:
-    #    print(i)   
+    cbint = IntVar()  
     
     window.geometry('475x320')
     window.resizable(False, False)
@@ -159,15 +145,11 @@ def gui():
     
     button_Opzoeken = ttk.Button(window, text='Zoeken achter Subtitles', width=25, command=check_all_par)
     checkbox_trusted = Checkbutton(window, text="UnTrusted Subs gebruiken", variable=cbint)
-    
-    
+      
     letter_cb['values'] = abclist
     letter_cb['state'] = 'readonly'
     moviekind_cb['values'] = ('Movies', 'Series')
     moviekind_cb['state'] = 'readonly'
-    
-        
-    #letter_cb.bind('<<ComboboxSelected>>', letter_selected)
     
     label_Opvolging.grid(row=0, column=0, padx=2, pady=10)
     letter_cb.grid(row=0 ,column=1, padx=2, pady=10)
@@ -175,22 +157,6 @@ def gui():
     moviekind_cb.grid(row=1, column=1, padx=2, pady=5)
     button_Opzoeken.grid(row=0, column=2, sticky="e", padx=2, pady=10)
     checkbox_trusted.grid(row=2, columnspan=3, padx=2, pady= 10)
-
-    window.mainloop()
-    
-def smallgui():
-    
-    window = tk.Tk()
-    
-    window.geometry('200x50')
-    window.resizable(False, False)
-    window.title("SubtitleFinder")
-    window.columnconfigure([0], minsize=200)
-    window.rowconfigure([0], minsize=50)
-
-    button_Opzoeken = ttk.Button(window, text='Zoeken achter Subtitles', width=25, command=start_prog)
-    
-    button_Opzoeken.grid(row=0, column=0, padx=2, pady=2)
 
     window.mainloop()
 

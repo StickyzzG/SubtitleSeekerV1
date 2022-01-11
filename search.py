@@ -26,32 +26,6 @@ ranks = {
     "TRANSLATOR" : 9
 }
 
-def getkeys(dict):
-    #x = dict.keys()
-    y = dict['data']
-    #long = len(y)
-    i=0
-    #print(type(y))
-    for i in range(len(y)):
-        print(i)
-        #a = y[i:(i+1)]
-        b = y[i]
-        #print(a,"\n")
-        #b_keys = b.keys()
-        #print(type(b))
-        print(b,"\n")
-        print() 
-    
-    #print(type(a))
-    
-    for x in y:
-        transformed_results = transformFullTextResults(x) 
-        #print(type(transformed_results)) 
-        new = {k: transformed_results[k] for k in transformed_results.keys() - {'link'}}
-        print(new)
-    #return b_keys
- 
-
 def normalizeDownloadCount(ranking):
     if ranking <= 0:
         return 0
@@ -92,34 +66,6 @@ def transformFullTextResults(subtitle):
         "trust" : subtitle["SubFromTrusted"]
     }
 
-def checklink(newsubtitle, nrs):
-    file1 = open("subslist.txt", "ra")
-    
-    flag = 0
-    index = 0
-  
-    # Loop through the file line by line
-    for line in file1:  
-        index += 1 
-      
-    # checking string is present in line or not
-        if newsubtitle in line:
-        
-            flag = 1
-            break 
-        else:
-            file1.write(newsubtitle)
-    # closing text file
-    file1.close()
-                
-    """          
-        # checking condition for string found or not
-        if flag == 0: 
-        print('String', string1 , 'Not Found') 
-        else: 
-        print('String', string1, 'Found In Line', index)
-    """
-
 def exactSearch(os_client, file_name, token, language):       
     language = 'dut'
     results = os_client.SearchSubtitles(token, [
@@ -130,7 +76,6 @@ def exactSearch(os_client, file_name, token, language):
         }
     ])
     subtitle_data = toJson(results)["data"]
-    #print(subtitle_data)
 
     if (len(subtitle_data) > 0):
         subtitle_data.sort(key=sortByScore,reverse=True)
@@ -154,14 +99,9 @@ def textSearch(os_client, file_name, token, language, sbox, skind):
             "query" : os.path.splitext(basename)[0],
             "sublanguageid" :  language
         }
-    ]) 
-    
-    #getkeys(results)
-    #print(type(results))
-    #print(skind)
+    ])
       
     transformed_results = [ transformFullTextResults(x) for x in results["data"] if (x["SubFromTrusted"] == "1" and x["MovieKind"] == skind)]
-    
     
     if sbox == 1:
         print("untrusted","\n","\n")
@@ -169,28 +109,14 @@ def textSearch(os_client, file_name, token, language, sbox, skind):
 
     if (len(transformed_results) > 0):
         transformed_results.sort(key=searchByAttributeRanking,reverse=True)
-        
-        #print(type(transformed_results))
-        
-        nr_results = len(transformed_results)
-        #checkresult = transformed_results[0]["link"]
-        
-        #transformed_results = checklink(transformed_results, nr_results)        
-        
+
         print("name trusted subtitle found: " , transformed_results)
         logging.info(transformed_results[0])
         return transformed_results[0]["link"]
     
     elif ((sbox == 1) and len(transformed_results_nottrusted) > 0):
         transformed_results_nottrusted.sort(key=searchByAttributeRanking,reverse=True)
-        
-        #print(type(transformed_results_nottrusted))
-        
-        nr_results = len(transformed_results_nottrusted)
-        #checkresult = transformed_results_nottrusted[0]["link"]
-        
-        #transformed_results_nottrusted = checklink(transformed_results_nottrusted, nr_results)
-        
+
         print("name untrusted subtitle found: " , transformed_results_nottrusted)
         logging.info("Subs from not a trusted Source")
         logging.info(transformed_results_nottrusted[0])
